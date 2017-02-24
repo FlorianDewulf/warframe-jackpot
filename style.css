@@ -1,0 +1,55 @@
+.slots {
+  overflow: auto;
+  width: 815px;
+  margin: auto;
+}
+
+.slots span {
+  color: #000;
+  cursor: default;
+  background: #C0C0C0;
+  border-radius: 5px;
+  border: 1px solid #333;
+  box-shadow: 0px 0px 10px #000;
+  float: left;
+  font-size: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: bold;
+  height: 200px;
+  line-height: 200px;
+  margin-left: 5px;
+  width: 200px;
+  -webkit-transition: all 0.67s ease;
+  transition: all 0.67s ease;
+}
+
+.slots span.spin {
+  transform: rotateX(720deg);
+}
+
+.slots span:first-child {
+  margin-left: 0;
+}
+
+div#params {
+  height: 600px;
+}
+
+div#params .columns {
+  height: 100%;
+}
+
+div#params .columns:first-child {
+  border-left: 0px;
+}
+
+div#params .columns {
+  border-left: 1px dashed black;
+}
+
+textarea {
+  width: 100%;
+  height: 90%;
+  resize: none;
+}
