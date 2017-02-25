@@ -126,13 +126,22 @@
         for (var name_option in options) {
           i = 0;
           list = '';
-console.log(options[name_option], this.current_user[options[name_option]]);
-          for (var index in this.current_user[options[name_option]]) {
+
+          for (var index in this.lund[options[name_option]]) {
             if (i != 0) {
               list += "\n";
             }
-            $('body').append('<img src="assets/' + options[name_option] + '/' + this.current_user[options[name_option]][index].snake + '.png" />');
-            list += this.current_user[options[name_option]][index].origin;
+            $('body').append('<img src="assets/' + options[name_option] + '/' + this.lund[options[name_option]][index].snake + '.png" />');
+            list += this.lund[options[name_option]][index].origin;
+            ++i;
+          }
+          $('body').append('<hr />');
+          for (var index in this.ystaroth[options[name_option]]) {
+            if (i != 0) {
+              list += "\n";
+            }
+            $('body').append('<img src="assets/' + options[name_option] + '/' + this.ystaroth[options[name_option]][index].snake + '.png" />');
+            list += this.ystaroth[options[name_option]][index].origin;
             ++i;
           }
           $($('textarea')[area]).val(list);
