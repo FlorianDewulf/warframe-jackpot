@@ -135,17 +135,17 @@
             list += this.lund[options[name_option]][index].origin;
             ++i;
           }
-          $('body').append('<hr />');
-          for (var index in this.ystaroth[options[name_option]]) {
-            if (i != 0) {
-              list += "\n";
-            }
-            $('body').append('<img src="assets/' + options[name_option] + '/' + this.ystaroth[options[name_option]][index].snake + '.png" />');
-            list += this.ystaroth[options[name_option]][index].origin;
-            ++i;
-          }
           $($('textarea')[area]).val(list);
           ++area;
+        }
+
+        $('body').append('<hr />');
+
+        for (var name_option in options) {
+          for (var index in this.ystaroth[options[name_option]]) {
+            $('body').append('<img src="assets/' + options[name_option] + '/' + this.ystaroth[options[name_option]][index].snake + '.png" />');
+            ++i;
+          }
         }
       },
       roll: function(event) {
