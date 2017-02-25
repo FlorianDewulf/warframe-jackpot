@@ -45,8 +45,6 @@
       /* end of data */
     },
     mounted: function() {
-      this.current_user = this.lund;
-
       var cached_data = getCookie('data');
       console.log('get : ', cached_data);
 
@@ -63,6 +61,7 @@
         }
       }
 
+      this.current_user = this.lund;
       this.restoreTextarea();
     },
     methods: {
