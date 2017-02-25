@@ -18,7 +18,6 @@
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
-    console.log('set cookie : ', cname + "=" + cvalue + ";" + expires + ";path=/");
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
 
@@ -57,7 +56,6 @@
         secondary:  getCookie('Ystaroth_secondary'),
         melee:      getCookie('Ystaroth_melee'),
       };
-      console.log(cached_data_lund, cached_data_ystaroth);
 
       for (var index in cached_data_lund) {
         if (typeof cached_data_lund[index] !== 'undefined' && cached_data_lund[index].length != 0) {
@@ -77,7 +75,6 @@
           }
         }
       }
-      console.log(this.lund);
 
       this.current_user = this.lund;
       this.restoreTextarea();
@@ -135,7 +132,6 @@
             if (i != 0) {
               list += "\n";
             }
-            $('body').append('<img src="assets/' + options[name_option] + '/' + this.lund[options[name_option]][index].snake + '.png" />');
             list += this.lund[options[name_option]][index].origin;
             ++i;
           }
@@ -143,14 +139,6 @@
           ++area;
         }
 
-        $('body').append('<hr />');
-
-        for (var name_option in options) {
-          for (var index in this.ystaroth[options[name_option]]) {
-            $('body').append('<img src="assets/' + options[name_option] + '/' + this.ystaroth[options[name_option]][index].snake + '.png" />');
-            ++i;
-          }
-        }
       },
       roll: function(event) {
         var nums = this.getNumsFromRange({
