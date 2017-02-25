@@ -121,8 +121,8 @@
           if (i != 0) {
             list += "\n";
           }
-          $('body').append('<img src="assets/warframes/' + this.current_user.warframes[index].snake + '.png" />');
-          list += this.current_user.warframes[index].original;
+          $('body').append('<img src="assets/warframes/' + this.current_user.warframes[index].sn + '.png" />');
+          list += this.current_user.warframes[index].orig;
           ++i;
         }
         $($('textarea')[0]).val(list);
@@ -133,8 +133,8 @@
           if (i != 0) {
             list += "\n";
           }
-          $('body').append('<img src="assets/primary/' + this.current_user.primary[index].snake + '.png" />');
-          list += this.current_user.primary[index].original;
+          $('body').append('<img src="assets/primary/' + this.current_user.primary[index].sn + '.png" />');
+          list += this.current_user.primary[index].orig;
           ++i;
         }
         $($('textarea')[1]).val(list);
@@ -145,8 +145,8 @@
           if (i != 0) {
             list += "\n";
           }
-          $('body').append('<img src="assets/secondary/' + this.current_user.secondary[index].snake + '.png" />');
-          list += this.current_user.secondary[index].original;
+          $('body').append('<img src="assets/secondary/' + this.current_user.secondary[index].sn + '.png" />');
+          list += this.current_user.secondary[index].orig;
           ++i;
         }
         $($('textarea')[2]).val(list);
@@ -157,8 +157,8 @@
           if (i != 0) {
             list += "\n";
           }
-          $('body').append('<img src="assets/melee/' + this.current_user.melee[index].snake + '.png" />');
-          list += this.current_user.melee[index].original;
+          $('body').append('<img src="assets/melee/' + this.current_user.melee[index].sn + '.png" />');
+          list += this.current_user.melee[index].orig;
           ++i;
         }
         $($('textarea')[3]).val(list);
@@ -182,8 +182,8 @@
         			elm.toggleClass('spin');
 
       				setTimeout(function () {
-                if (typeof that.current_user[type][nums[type]] !== 'undefined' && that.current_user[type][nums[type]].original != '') {
-        					elm.html('<img src="assets/' + type + "/" + that.current_user[type][nums[type]].snake + '.png" /><br />' + that.current_user[type][nums[type]].original);
+                if (typeof that.current_user[type][nums[type]] !== 'undefined' && that.current_user[type][nums[type]].orig != '') {
+        					elm.html('<img src="assets/' + type + "/" + that.current_user[type][nums[type]].sn + '.png" /><br />' + that.current_user[type][nums[type]].orig);
                 } else {
                   elm.html('?');
                 }
@@ -197,10 +197,10 @@
       putWarframes: function(event) {
         var final = [];
         var values = this.parse_textarea($(event.target).val());
-        var original = this.parse_textarea($(event.target).val());
+        var orig = this.parse_textarea($(event.target).val());
 
         for (var index in values) {
-          final.push({original: original[index], snake: _.snakeCase(values[index]) });
+          final.push({orig: orig[index], sn: _.snakeCase(values[index]) });
         }
         this.current_user.warframes = final;
         setCookie(this.current_user.name + '_warframes', JSON.stringify(this.current_user.warframes));
@@ -209,10 +209,10 @@
       putPrimaries: function(event) {
         var final = [];
         var values = this.parse_textarea($(event.target).val());
-        var original = this.parse_textarea($(event.target).val());
+        var orig = this.parse_textarea($(event.target).val());
 
         for (var index in values) {
-          final.push({original: original[index], snake: _.snakeCase(values[index]) });
+          final.push({orig: orig[index], sn: _.snakeCase(values[index]) });
         }
         this.current_user.primary = final;
         setCookie(this.current_user.name + '_primary', JSON.stringify(this.current_user.primary));
@@ -221,10 +221,10 @@
       putSecondaries: function(event) {
         var final = [];
         var values = this.parse_textarea($(event.target).val());
-        var original = this.parse_textarea($(event.target).val());
+        var orig = this.parse_textarea($(event.target).val());
 
         for (var index in values) {
-          final.push({original: original[index], snake: _.snakeCase(values[index]) });
+          final.push({orig: orig[index], sn: _.snakeCase(values[index]) });
         }
         this.current_user.secondary = final;
         setCookie(this.current_user.name + '_secondary', JSON.stringify(this.current_user.secondary));
@@ -233,10 +233,10 @@
       putMelees: function(event) {
         var final = [];
         var values = this.parse_textarea($(event.target).val());
-        var original = this.parse_textarea($(event.target).val());
+        var orig = this.parse_textarea($(event.target).val());
 
         for (var index in values) {
-          final.push({original: original[index], snake: _.snakeCase(values[index]) });
+          final.push({orig: orig[index], sn: _.snakeCase(values[index]) });
         }
         this.current_user.melee = final;
         setCookie(this.current_user.name + '_melee', JSON.stringify(this.current_user.melee));
