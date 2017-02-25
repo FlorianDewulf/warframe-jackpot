@@ -18,6 +18,7 @@
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
+    console.log('set cookie : ', cname + "=" + cvalue + ";" + expires + ";path=/");
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
 
@@ -47,14 +48,18 @@
       this.current_user = this.lund;
 
       var cached_data = getCookie('data');
+      console.log('get : ', cached_data);
 
       if (typeof cached_data !== 'undefined' && cached_data.length != 0) {
         var cached_data = JSON.parse(cached_data);
+        console.log('after parse : ', cached_data);
         if (typeof cached_data.lund !== 'undefined' && cached_data.lund.length != 0) {
           this.lund = cached_data.lund;
+          console.log('lund : ', this.lund);
         }
         if (typeof cached_data.ystaroth !== 'undefined' && cached_data.ystaroth.length != 0) {
           this.ystaroth = cached_data.ystaroth;
+          console.log('ysta : ', this.ystaroth);
         }
       }
 
