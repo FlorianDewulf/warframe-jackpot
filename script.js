@@ -73,6 +73,7 @@
           this.ystaroth[index] = JSON.parse(cached_data_ystaroth[index]);
         }
       }
+      console.log(this.lund);
 
       this.current_user = this.lund;
       this.restoreTextarea();
@@ -126,11 +127,11 @@
           i = 0;
           list = '';
 
-          for (var index in this.current_user[name_option]) {
+          for (var index in this.current_user[name[name_option]]) {
             if (i != 0) {
               list += "\n";
             }
-            $('body').append('<img src="assets/' + name_option + '/' + this.current_user[name_option][index].snake + '.png" />');
+            $('body').append('<img src="assets/' + name[name_option] + '/' + this.current_user[name[name_option]][index].snake + '.png" />');
             list += this.current_user[name_option][index].origin;
             ++i;
           }
