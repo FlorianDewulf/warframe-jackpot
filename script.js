@@ -26,18 +26,18 @@
     el: '#app',
     data: {
       lund: {
-        name:    'Lund',
+        name:       'Lund',
         warframes:  [],
-        primary: [],
-        secondary: [],
-        melee:  [],
+        primary:    [],
+        secondary:  [],
+        melee:      [],
       },
       ystaroth: {
         name:    'Ystaroth',
         warframes:  [],
-        primary: [],
-        secondary: [],
-        melee:  [],
+        primary:    [],
+        secondary:  [],
+        melee:      [],
       },
       display_draw:     true,
       display_params:   false,
@@ -224,6 +224,7 @@
         for (var index in values) {
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
+        console.log('FINAL', final);
         this.current_user.melee = final;
         this.store_datas();
       },
@@ -231,6 +232,7 @@
         return content.split("\n");
       },
       store_datas: function() {
+        console.log('BEFORE STORAGE', this.lund, this.ystaroth);
         setCookie("data", JSON.stringify({ lund: this.lund, ystaroth: this.ystaroth }), 365);
       }
       /* end of methods*/
