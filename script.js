@@ -127,12 +127,12 @@
           i = 0;
           list = '';
 
-          for (var index in this.current_user[name[name_option]]) {
+          for (var index in this.current_user[options[name_option]]) {
             if (i != 0) {
               list += "\n";
             }
-            $('body').append('<img src="assets/' + name[name_option] + '/' + this.current_user[name[name_option]][index].snake + '.png" />');
-            list += this.current_user[name_option][index].origin;
+            $('body').append('<img src="assets/' + options[name_option] + '/' + this.current_user[options[name_option]][index].snake + '.png" />');
+            list += this.current_user[options[name_option]][index].origin;
             ++i;
           }
           $($('textarea')[area]).val(list);
