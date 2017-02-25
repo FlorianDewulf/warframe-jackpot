@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/js/foundation.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
   </head>
   <body>
     <div id="app">
@@ -28,10 +29,10 @@
             <h1 class="text-center">{{ current_user ? current_user.name : '' }} <span class="button tiny" @click.prevent="changeUser"><i class="fa fa-refresh" aria-hidden="true"></i></span></h1>
             <hr />
             <div class="slots" id="slots">
-              <span class="text-center">?</span>
-              <span class="text-center">?</span>
-              <span class="text-center">?</span>
-              <span class="text-center">?</span>
+              <div class="text-center">?</div>
+              <div class="text-center">?</div>
+              <div class="text-center">?</div>
+              <div class="text-center">?</div>
             </div>
             <br>
             <div class="text-center"><a href="#" id="hitMe" @click.prevent="roll" class="button">Random</a></div>
@@ -39,15 +40,15 @@
           <div id="params" v-show="display_params" class="clearfix">
             <div class="columns medium-3">
               <h4 class="text-center">Warframes</h4>
-              <textarea @change="putFrames" @keyup="putFrames"></textarea>
+              <textarea @change="putWarframes" @keyup="putWarframes"></textarea>
             </div>
             <div class="columns medium-3">
               <h4 class="text-center">Armes Principales</h4>
-              <textarea @change="putWeapons" @keyup="putWeapons"></textarea>
+              <textarea @change="putPrimaries" @keyup="putPrimaries"></textarea>
             </div>
             <div class="columns medium-3">
               <h4 class="text-center">Armes Secondaires</h4>
-              <textarea @change="putPistols" @keyup="putPistols"></textarea>
+              <textarea @change="putSecondaries" @keyup="putSecondaries"></textarea>
             </div>
             <div class="columns medium-3">
               <h4 class="text-center">Armes de mélée</h4>

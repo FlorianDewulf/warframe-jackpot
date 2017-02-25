@@ -4,17 +4,17 @@
     data: {
       lund: {
         name:    'Lund',
-        frames:  [],
-        weapons: [],
-        pistols: [],
-        melees:  [],
+        warframes:  [],
+        primary: [],
+        secondary: [],
+        melee:  [],
       },
       ystaroth: {
         name:    'Ystaroth',
-        frames:  [],
-        weapons: [],
-        pistols: [],
-        melees:  [],
+        warframes:  [],
+        primary: [],
+        secondary: [],
+        melee:  [],
       },
       display_draw:     true,
       display_params:   false,
@@ -23,6 +23,20 @@
     },
     mounted: function() {
       this.current_user = this.lund;
+
+      var cached_data = document.cookie;
+
+      if (typeof cached_data !== 'undefined' && cached_data.length != 0) {
+        var cached_data = JSON.parse(cached_data);
+        if (typeof cached_data.lund !== 'undefined' && cached_data.lund.length != 0) {
+          this.lund = cached_data.lund;
+        }
+        if (typeof cached_data.ystaroth !== 'undefined' && cached_data.ystaroth.length != 0) {
+          this.ystaroth = cached_data.ystaroth;
+        }
+      }
+
+      this.restoreTextarea();
     },
     methods: {
       getNumsFromRange: function (obj) {
@@ -50,28 +64,75 @@
       },
       changeUser: function(event) {
         /* clean */
-        this.current_user.frames  = [];
-        this.current_user.weapons = [];
-        this.current_user.pistols = [];
-        this.current_user.melees  = [];
         $('textarea').val('');
-        $('#slots span').html('?')
+        $('#slots div').html('?')
 
         if (this.current_user.name == "Lund") {
           this.current_user = this.ystaroth;
         } else {
           this.current_user = this.lund;
         }
+
+        this.restoreTextarea();
+      },
+      restoreTextarea: function() {
+        $('textarea').val('');
+        var list = "";
+        var i = 0;
+
+        for (var index in this.current_user.warframes) {
+          if (i != 0) {
+            list += "\n";
+          }
+          $('body').append('<img src="assets/warframes/' + this.current_user.warframes[index].snake + '.png" />');
+          list += this.current_user.warframes[index].original;
+          ++i;
+        }
+        $($('textarea')[0]).val(list);
+        list = '';
+
+        i = 0;
+        for (var index in this.current_user.primary) {
+          if (i != 0) {
+            list += "\n";
+          }
+          $('body').append('<img src="assets/primary/' + this.current_user.primary[index].snake + '.png" />');
+          list += this.current_user.primary[index].original;
+          ++i;
+        }
+        $($('textarea')[1]).val(list);
+        list = '';
+
+        i = 0;
+        for (var index in this.current_user.secondary) {
+          if (i != 0) {
+            list += "\n";
+          }
+          $('body').append('<img src="assets/secondary/' + this.current_user.secondary[index].snake + '.png" />');
+          list += this.current_user.secondary[index].original;
+          ++i;
+        }
+        $($('textarea')[2]).val(list);
+        list = '';
+
+        i = 0;
+        for (var index in this.current_user.melee) {
+          if (i != 0) {
+            list += "\n";
+          }
+          $('body').append('<img src="assets/melee/' + this.current_user.melee[index].snake + '.png" />');
+          list += this.current_user.melee[index].original;
+          ++i;
+        }
+        $($('textarea')[3]).val(list);
       },
       roll: function(event) {
         var nums = this.getNumsFromRange({
-          frames: this.current_user.frames.length,
-          weapons: this.current_user.weapons.length,
-          pistols: this.current_user.pistols.length,
-          melees: this.current_user.melees.length
+          warframes: this.current_user.warframes.length,
+          primary: this.current_user.primary.length,
+          secondary: this.current_user.secondary.length,
+          melee: this.current_user.melee.length
         });
-
-        console.log(nums);
 
     		// Spin each slot
         var i = 0;
@@ -80,13 +141,15 @@
           // Asynchronous hack to send the variable incremented without a change of value
           (function(count, type) {
             setTimeout(function () {
-              var elm = $('#slots span:nth-child(' + (count + 1) + ')');
+              var elm = $('#slots div:nth-child(' + (count + 1) + ')');
         			elm.toggleClass('spin');
 
       				setTimeout(function () {
-      					var tries, winner;
-                console.log(elm, that.current_user[type], nums[type], that.current_user[type][nums[type]]);
-      					elm.html(that.current_user[type][nums[type]]);
+                if (typeof that.current_user[type][nums[type]] !== 'undefined' && that.current_user[type][nums[type]].original != '') {
+        					elm.html('<img src="assets/' + type + "/" + that.current_user[type][nums[type]].snake + '.png" /><br />' + that.current_user[type][nums[type]].original);
+                } else {
+                  elm.html('?');
+                }
       				}, 335);
       			}, i * 100);
           })(i, index);
@@ -94,20 +157,51 @@
           ++i;
         }
       },
-      putFrames: function(event) {
-        this.current_user.frames = this.parse_textarea($(event.target).val());
+      putWarframes: function(event) {
+        var final = [];
+        var values = this.parse_textarea($(event.target).val());
+        var original = this.parse_textarea($(event.target).val());
+
+        for (var index in values) {
+          final.push({original: original[index], snake: _.snakeCase(values[index]) });
+        }
+        this.current_user.warframes = final;
       },
-      putWeapons: function(event) {
-        this.current_user.weapons = this.parse_textarea($(event.target).val());
+      putPrimaries: function(event) {
+        var final = [];
+        var values = this.parse_textarea($(event.target).val());
+        var original = this.parse_textarea($(event.target).val());
+
+        for (var index in values) {
+          final.push({original: original[index], snake: _.snakeCase(values[index]) });
+        }
+        this.current_user.primary = final;
       },
-      putPistols: function(event) {
-        this.current_user.pistols = this.parse_textarea($(event.target).val());
+      putSecondaries: function(event) {
+        var final = [];
+        var values = this.parse_textarea($(event.target).val());
+        var original = this.parse_textarea($(event.target).val());
+
+        for (var index in values) {
+          final.push({original: original[index], snake: _.snakeCase(values[index]) });
+        }
+        this.current_user.secondary = final;
       },
       putMelees: function(event) {
-        this.current_user.melees = this.parse_textarea($(event.target).val());
+        var final = [];
+        var values = this.parse_textarea($(event.target).val());
+        var original = this.parse_textarea($(event.target).val());
+
+        for (var index in values) {
+          final.push({original: original[index], snake: _.snakeCase(values[index]) });
+        }
+        this.current_user.melee = final;
       },
       parse_textarea: function(content) {
         return content.split("\n");
+      },
+      store_datas: function(content) {
+        document.cookies = JSON.stringify({ lund: this.lund, ystaroth: this.ystaroth });
       }
       /* end of methods*/
     },

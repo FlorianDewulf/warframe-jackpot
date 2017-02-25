@@ -1,10 +1,10 @@
 .slots {
   overflow: auto;
-  width: 815px;
+  width: 820px;
   margin: auto;
 }
 
-.slots span {
+.slots div {
   color: #000;
   cursor: default;
   background: #C0C0C0;
@@ -16,19 +16,18 @@
   overflow: hidden;
   white-space: nowrap;
   font-weight: bold;
-  height: 200px;
-  line-height: 200px;
+  height: 175px;
   margin-left: 5px;
   width: 200px;
   -webkit-transition: all 0.67s ease;
   transition: all 0.67s ease;
 }
 
-.slots span.spin {
+.slots div.spin {
   transform: rotateX(720deg);
 }
 
-.slots span:first-child {
+.slots div:first-child {
   margin-left: 0;
 }
 
