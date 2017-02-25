@@ -70,7 +70,11 @@
       }
       for (var index in cached_data_ystaroth) {
         if (typeof cached_data_ystaroth[index] !== 'undefined' && cached_data_ystaroth[index].length != 0) {
-          this.ystaroth[index] = JSON.parse(cached_data_ystaroth[index]);
+          tmp = JSON.parse(cached_data_ystaroth[index]);
+
+          for (var i = 0 ; i < tmp.length ; ++i) {
+            this.ystaroth[index].push({ origin: tmp[i], snake: _.snakeCase(tmp[i]) });
+          }
         }
       }
       console.log(this.lund);
