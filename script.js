@@ -45,19 +45,27 @@
       /* end of data */
     },
     mounted: function() {
-      var cached_data = getCookie('data');
-      console.log('get : ', cached_data);
+      var cached_data_lund = {
+        warframes:  getCookie('Lund_warframes'),
+        primary:    getCookie('Lund_primary'),
+        secondary:  getCookie('Lund_secondary'),
+        melee:      getCookie('Lund_melee'),
+      };
+      var cached_data_ystaroth = {
+        warframes:  getCookie('Ystaroth_warframes'),
+        primary:    getCookie('Ystaroth_primary'),
+        secondary:  getCookie('Ystaroth_secondary'),
+        melee:      getCookie('Ystaroth_melee'),
+      };
 
-      if (typeof cached_data !== 'undefined' && cached_data.length != 0) {
-        var cached_data = JSON.parse(cached_data);
-        console.log('after parse : ', cached_data);
-        if (typeof cached_data.lund !== 'undefined' && cached_data.lund.length != 0) {
-          this.lund = cached_data.lund;
-          console.log('lund : ', this.lund);
+      for (var index in cached_data_lund) {
+        if (typeof cached_data_lund[index] !== 'undefined' && cached_data_lund[index].length != 0) {
+          this.lund[index] = JSON.parse(cached_data_lund[index]);
         }
-        if (typeof cached_data.ystaroth !== 'undefined' && cached_data.ystaroth.length != 0) {
-          this.ystaroth = cached_data.ystaroth;
-          console.log('ysta : ', this.ystaroth);
+      }
+      for (var index in cached_data_ystaroth) {
+        if (typeof cached_data_ystaroth[index] !== 'undefined' && cached_data_ystaroth[index].length != 0) {
+          this.ystaroth[index] = JSON.parse(cached_data_ystaroth[index]);
         }
       }
 
@@ -192,7 +200,7 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.warframes = final;
-        this.store_datas();
+        this.setCookie(this.current_user.name + '_warframes', this.current_user.warframes);
       },
       putPrimaries: function(event) {
         var final = [];
@@ -203,7 +211,7 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.primary = final;
-        this.store_datas();
+        this.setCookie(this.current_user.name + '_primary', this.current_user.primary);
       },
       putSecondaries: function(event) {
         var final = [];
@@ -214,7 +222,7 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.secondary = final;
-        this.store_datas();
+        this.setCookie(this.current_user.name + '_secondary', this.current_user.secondary);
       },
       putMelees: function(event) {
         var final = [];
@@ -224,16 +232,11 @@
         for (var index in values) {
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
-        console.log('FINAL', final);
         this.current_user.melee = final;
-        this.store_datas();
+        this.setCookie(this.current_user.name + '_melee', this.current_user.melee);
       },
       parse_textarea: function(content) {
         return content.split("\n");
-      },
-      store_datas: function() {
-        console.log('BEFORE STORAGE', this.lund, this.ystaroth);
-        setCookie("data", JSON.stringify({ lund: this.lund, ystaroth: this.ystaroth }), 365);
       }
       /* end of methods*/
     },
