@@ -1,4 +1,26 @@
 (function () {
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+  function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
   var app = new Vue({
     el: '#app',
     data: {
@@ -24,7 +46,7 @@
     mounted: function() {
       this.current_user = this.lund;
 
-      var cached_data = document.cookie;
+      var cached_data = getCookie('data');
 
       if (typeof cached_data !== 'undefined' && cached_data.length != 0) {
         var cached_data = JSON.parse(cached_data);
@@ -166,6 +188,7 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.warframes = final;
+        this.store_datas();
       },
       putPrimaries: function(event) {
         var final = [];
@@ -176,6 +199,7 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.primary = final;
+        this.store_datas();
       },
       putSecondaries: function(event) {
         var final = [];
@@ -186,6 +210,7 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.secondary = final;
+        this.store_datas();
       },
       putMelees: function(event) {
         var final = [];
@@ -196,12 +221,13 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.melee = final;
+        this.store_datas();
       },
       parse_textarea: function(content) {
         return content.split("\n");
       },
-      store_datas: function(content) {
-        document.cookies = JSON.stringify({ lund: this.lund, ystaroth: this.ystaroth });
+      store_datas: function() {
+        setCookie("data", JSON.stringify({ lund: this.lund, ystaroth: this.ystaroth }), 365);
       }
       /* end of methods*/
     },
