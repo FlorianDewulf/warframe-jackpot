@@ -45,6 +45,8 @@
       /* end of data */
     },
     mounted: function() {
+      console.log(document.cookies);
+
       var cached_data_lund = {
         warframes:  getCookie('Lund_warframes'),
         primary:    getCookie('Lund_primary'),
@@ -57,6 +59,7 @@
         secondary:  getCookie('Ystaroth_secondary'),
         melee:      getCookie('Ystaroth_melee'),
       };
+      console.log(cached_data_lund, cached_data_ystaroth);
 
       for (var index in cached_data_lund) {
         if (typeof cached_data_lund[index] !== 'undefined' && cached_data_lund[index].length != 0) {
@@ -200,7 +203,8 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.warframes = final;
-        this.setCookie(this.current_user.name + '_warframes', this.current_user.warframes);
+        setCookie(this.current_user.name + '_warframes', this.current_user.warframes);
+        console.log(document.cookies);
       },
       putPrimaries: function(event) {
         var final = [];
@@ -211,7 +215,8 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.primary = final;
-        this.setCookie(this.current_user.name + '_primary', this.current_user.primary);
+        setCookie(this.current_user.name + '_primary', this.current_user.primary);
+        console.log(document.cookies);
       },
       putSecondaries: function(event) {
         var final = [];
@@ -222,7 +227,8 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.secondary = final;
-        this.setCookie(this.current_user.name + '_secondary', this.current_user.secondary);
+        setCookie(this.current_user.name + '_secondary', this.current_user.secondary);
+        console.log(document.cookies);
       },
       putMelees: function(event) {
         var final = [];
@@ -233,7 +239,8 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.melee = final;
-        this.setCookie(this.current_user.name + '_melee', this.current_user.melee);
+        setCookie(this.current_user.name + '_melee', this.current_user.melee);
+        console.log(document.cookies);
       },
       parse_textarea: function(content) {
         return content.split("\n");
