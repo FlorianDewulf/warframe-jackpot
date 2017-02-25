@@ -203,7 +203,7 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.warframes = final;
-        setCookie(this.current_user.name + '_warframes', this.current_user.warframes);
+        setCookie(this.current_user.name + '_warframes', JSON.stringify(this.current_user.warframes));
         console.log(document.cookies);
       },
       putPrimaries: function(event) {
@@ -215,7 +215,7 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.primary = final;
-        setCookie(this.current_user.name + '_primary', this.current_user.primary);
+        setCookie(this.current_user.name + '_primary', JSON.stringify(this.current_user.primary));
         console.log(document.cookies);
       },
       putSecondaries: function(event) {
@@ -227,7 +227,7 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.secondary = final;
-        setCookie(this.current_user.name + '_secondary', this.current_user.secondary);
+        setCookie(this.current_user.name + '_secondary', JSON.stringify(this.current_user.secondary));
         console.log(document.cookies);
       },
       putMelees: function(event) {
@@ -239,7 +239,7 @@
           final.push({original: original[index], snake: _.snakeCase(values[index]) });
         }
         this.current_user.melee = final;
-        setCookie(this.current_user.name + '_melee', this.current_user.melee);
+        setCookie(this.current_user.name + '_melee', JSON.stringify(this.current_user.melee));
         console.log(document.cookies);
       },
       parse_textarea: function(content) {
