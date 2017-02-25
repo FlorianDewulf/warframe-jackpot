@@ -126,7 +126,7 @@
         for (var name_option in options) {
           i = 0;
           list = '';
-
+console.log(options[name_option], this.current_user[options[name_option]]);
           for (var index in this.current_user[options[name_option]]) {
             if (i != 0) {
               list += "\n";
