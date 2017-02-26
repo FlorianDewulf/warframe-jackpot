@@ -128,11 +128,11 @@
           i = 0;
           list = '';
 
-          for (var index in this.lund[options[name_option]]) {
+          for (var index in this.current_user[options[name_option]]) {
             if (i != 0) {
               list += "\n";
             }
-            list += this.lund[options[name_option]][index].origin;
+            list += this.current_user[options[name_option]][index].origin;
             ++i;
           }
           $($('textarea')[area]).val(list);
