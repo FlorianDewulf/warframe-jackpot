@@ -43,43 +43,54 @@
       current_user:     null,
       /* end of data */
     },
-    mounted: function() {
-      var cached_data_lund = {
-        warframes:  getCookie('Lund_warframes'),
-        primary:    getCookie('Lund_primary'),
-        secondary:  getCookie('Lund_secondary'),
-        melee:      getCookie('Lund_melee'),
-      };
-      var cached_data_ystaroth = {
-        warframes:  getCookie('Ystaroth_warframes'),
-        primary:    getCookie('Ystaroth_primary'),
-        secondary:  getCookie('Ystaroth_secondary'),
-        melee:      getCookie('Ystaroth_melee'),
-      };
-
-      for (var index in cached_data_lund) {
-        if (typeof cached_data_lund[index] !== 'undefined' && cached_data_lund[index].length != 0) {
-          tmp = JSON.parse(cached_data_lund[index]);
-
-          for (var i = 0 ; i < tmp.length ; ++i) {
-            this.lund[index].push({ origin: tmp[i], snake: _.snakeCase(tmp[i]) });
-          }
-        }
-      }
-      for (var index in cached_data_ystaroth) {
-        if (typeof cached_data_ystaroth[index] !== 'undefined' && cached_data_ystaroth[index].length != 0) {
-          tmp = JSON.parse(cached_data_ystaroth[index]);
-
-          for (var i = 0 ; i < tmp.length ; ++i) {
-            this.ystaroth[index].push({ origin: tmp[i], snake: _.snakeCase(tmp[i]) });
-          }
-        }
-      }
-
-      this.current_user = this.lund;
-      this.restoreTextarea();
-    },
     methods: {
+      discardModal: function() {
+        $('.reveal-modal').remove();
+        $('.reveal-modal-bg').remove();
+      },
+      cleanProject: function(event) {
+        this.discardModal();
+      },
+      fromCache: function(event) {
+        this.initFromCache();
+        this.discardModal();
+      },
+      initFromCache: function() {
+        var cached_data_lund = {
+          warframes:  getCookie('Lund_warframes'),
+          primary:    getCookie('Lund_primary'),
+          secondary:  getCookie('Lund_secondary'),
+          melee:      getCookie('Lund_melee'),
+        };
+        var cached_data_ystaroth = {
+          warframes:  getCookie('Ystaroth_warframes'),
+          primary:    getCookie('Ystaroth_primary'),
+          secondary:  getCookie('Ystaroth_secondary'),
+          melee:      getCookie('Ystaroth_melee'),
+        };
+
+        for (var index in cached_data_lund) {
+          if (typeof cached_data_lund[index] !== 'undefined' && cached_data_lund[index].length != 0) {
+            tmp = JSON.parse(cached_data_lund[index]);
+
+            for (var i = 0 ; i < tmp.length ; ++i) {
+              this.lund[index].push({ origin: tmp[i], snake: _.snakeCase(tmp[i]) });
+            }
+          }
+        }
+        for (var index in cached_data_ystaroth) {
+          if (typeof cached_data_ystaroth[index] !== 'undefined' && cached_data_ystaroth[index].length != 0) {
+            tmp = JSON.parse(cached_data_ystaroth[index]);
+
+            for (var i = 0 ; i < tmp.length ; ++i) {
+              this.ystaroth[index].push({ origin: tmp[i], snake: _.snakeCase(tmp[i]) });
+            }
+          }
+        }
+
+        this.current_user = this.lund;
+        this.restoreTextarea();
+      },
       getNumsFromRange: function (obj) {
     		var getRandomInt = function (max) {
     			return Math.floor(Math.random() * max);

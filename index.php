@@ -59,6 +59,24 @@
           </div>
         </div>
       </section>
+      <div class="reveal-modal-bg" style="display: block;"></div>
+      <div class="reveal-modal open">
+        <h2 class="text-center">Que voulez vous de l'outil ?</h2>
+        <hr />
+        <div class="clearfix">
+          <div class="columns small-4 small-offset-2">
+            <div class="button" @click.prevent="cleanProject">
+              Projet vierge
+            </div>
+          </div>
+          <div class="columns small-4" style="float:left" @click.prevent="fromCache">
+            <div class="button" style="padding-top:25px;">
+              Récuperez mes données des cookies
+            </div>
+          </div>
+        </div>
+        <a class="close-reveal-modal" aria-label="Close">×</a>
+      </div>
     </div>
     <script src="script.js"></script>
   </body>
