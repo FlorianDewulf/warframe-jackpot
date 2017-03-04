@@ -20,6 +20,10 @@
     var expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
+  }
+  function cleanCookies() {
+    document.cookie = '';
+  }
   function cleanArray(array) {
     var i, j, len = array.length, out = [], obj = {};
     for (i = 0; i < len; i++) {
@@ -61,7 +65,8 @@
       cleanProject: function(event) {
         this.users = [];
         this.modal_content = true;
-        $('#modalTitle').html('Qui sont vos utilisateurs ?')
+        $('#modalTitle').html('Qui sont vos utilisateurs ?');
+        cleanCookies();
       },
       saveNames: function(event) {
         var users = [];
