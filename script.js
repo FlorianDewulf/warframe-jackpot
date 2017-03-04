@@ -122,7 +122,7 @@
             }
             challenge_content += this.challenges[index];
           }
-          $('#challenges textarea').val(challenge_content);
+          $('#challenge textarea').val(challenge_content);
         }
 
         for (var index in cache) {
