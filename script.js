@@ -135,7 +135,7 @@
           this.users[index] = user;
         }
 
-        this.current_user = user[0];
+        this.current_user = this.users[users[0]];
         this.restoreTextarea();
       },
       getNumsFromRange: function (obj) {
