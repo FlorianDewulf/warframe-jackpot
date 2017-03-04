@@ -34,36 +34,7 @@
   var app = new Vue({
     el: '#app',
     data: {
-      users: {
-        lund: {
-          name:       'Lund',
-          warframes:  [],
-          primary:    [],
-          secondary:  [],
-          melee:      [],
-        },
-        ystaroth: {
-          name:    'Ystaroth',
-          warframes:  [],
-          primary:    [],
-          secondary:  [],
-          melee:      [],
-        }
-      },
-      lund: {
-        name:       'Lund',
-        warframes:  [],
-        primary:    [],
-        secondary:  [],
-        melee:      [],
-      },
-      ystaroth: {
-        name:    'Ystaroth',
-        warframes:  [],
-        primary:    [],
-        secondary:  [],
-        melee:      [],
-      },
+      users: [],
       display_draw:     true,
       display_params:   false,
       current_user:     null,
@@ -102,7 +73,7 @@
         }
 
         this.user_names = cleanArray(users);
-        setCookie('users', JSON.stringify(this.user_names));
+        setCookie('users', JSON.stringify(this.user_names), 365);
         for (var index in this.user_names) {
           this.users[this.user_names[index]] = {
             name:       users[index],
@@ -113,7 +84,6 @@
           };
         }
         this.current_user = this.users[this.user_names[0]];
-        console.log(this.current_user);
         this.discardModal();
       },
       fromCache: function(event) {
@@ -157,13 +127,16 @@
               for (var i = 0 ; i < tmp.length ; ++i) {
                 user[index].push({ origin: tmp[i], snake: _.snakeCase(tmp[i]) });
               }
+            } else {
+              user[index] = [];
             }
           }
+
+          this.users[index] = user;
         }
 
         this.current_user = user[0];
         this.restoreTextarea();
-        console.log(this.current_user);
       },
       getNumsFromRange: function (obj) {
     		var getRandomInt = function (max) {
@@ -268,7 +241,7 @@
           light_for_cookie.push(origin[index]);
         }
         this.current_user.warframes = final;
-        setCookie(this.current_user.name + '_warframes', JSON.stringify(light_for_cookie));
+        setCookie(this.current_user.name + '_warframes', JSON.stringify(light_for_cookie), 365);
       },
       putPrimaries: function(event) {
         var final = [];
@@ -281,7 +254,7 @@
           light_for_cookie.push(origin[index]);
         }
         this.current_user.primary = final;
-        setCookie(this.current_user.name + '_primary', JSON.stringify(light_for_cookie));
+        setCookie(this.current_user.name + '_primary', JSON.stringify(light_for_cookie), 365);
       },
       putSecondaries: function(event) {
         var final = [];
@@ -294,7 +267,7 @@
           light_for_cookie.push(origin[index]);
         }
         this.current_user.secondary = final;
-        setCookie(this.current_user.name + '_secondary', JSON.stringify(light_for_cookie));
+        setCookie(this.current_user.name + '_secondary', JSON.stringify(light_for_cookie), 365);
       },
       putMelees: function(event) {
         var final = [];
@@ -307,7 +280,7 @@
           light_for_cookie.push(origin[index]);
         }
         this.current_user.melee = final;
-        setCookie(this.current_user.name + '_melee', JSON.stringify(light_for_cookie));
+        setCookie(this.current_user.name + '_melee', JSON.stringify(light_for_cookie), 365);
       },
       parse_textarea: function(content) {
         return content.split("\n");
