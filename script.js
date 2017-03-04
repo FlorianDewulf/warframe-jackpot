@@ -115,14 +115,6 @@
         var challenges = getCookie('challenges');
         if (challenges !== 'undefined' && challenges.length > 0) {
           this.challenges = JSON.parse(challenges);
-          var challenge_content = "";
-          for (var index in this.challenges) {
-            if (index > 0) {
-              challenge_content += "\n";
-            }
-            challenge_content += this.challenges[index];
-          }
-          $('#challenge textarea').val(challenge_content);
         }
 
         for (var index in cache) {
@@ -213,6 +205,14 @@
           ++area;
         }
 
+        list = "";
+        for (var index in this.challenges) {
+          if (index > 0) {
+            list += "\n";
+          }
+          list += this.challenges[index];
+        }
+        $('#challenge textarea').val(list);
       },
       roll: function(event) {
         var nums = this.getNumsFromRange({
