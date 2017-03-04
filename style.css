@@ -38,11 +38,11 @@
   opacity: 0
 }
 
-div#params {
+div#params, div#challenge {
   height: 600px;
 }
 
-div#params .columns {
+div#params .columns, div#challenge .columns {
   height: 100%;
 }
 

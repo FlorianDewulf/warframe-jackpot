@@ -51,6 +51,29 @@
             </div>
             <br>
             <div class="text-center"><a href="#" id="hitMe" @click.prevent="roll" class="button">Random</a></div>
+            <hr />
+            <div class="row">
+              <div class="columns small-offset-1 small-3">
+                <h3 class="text-center">Challenge ?</h3>
+                <p>{{ is_challenge ? 'Oui' : 'Non'}}</p>
+              </div>
+              <div class="columns small-2">
+                <h3 class="text-center">Joueur ?</h3>
+                <transition name="fade">
+                  <p v-show="is_challenge">{{ challenger.name }}</p>
+                </transition>
+              </div>
+              <div class="columns small-4">
+                <h3>Intitulé du challenge</h3>
+                <transition name="fade">
+                  <p v-show="is_challenge" v-html="challenger.challenge"></p>
+                </transition>
+              </div>
+            </div>
+            <div class="text-center">
+              <button class="button warning" @click="pickChallenge">Challenge ?</button>
+              <button class="button warning" @click="addChallenge">Challenge supplémentaire ?</button>
+            </div>
           </div>
           <div id="params" v-show="display_params" class="clearfix">
             <div class="columns medium-3">
@@ -76,29 +99,6 @@
               <textarea @change="putChallenges" @keyup="putChallenges"></textarea>
             </div>
           </div>
-        </div>
-        <hr />
-        <div class="row">
-          <div class="columns small-offset-1 small-3">
-            <h3 class="text-center">Challenge ?</h3>
-            <p>{{ is_challenge ? 'Oui' : 'Non'}}</p>
-          </div>
-          <div class="columns small-2">
-            <h3 class="text-center">Joueur ?</h3>
-            <transition name="fade">
-              <p v-show="is_challenge">{{ challenger.name }}</p>
-            </transition>
-          </div>
-          <div class="columns small-4">
-            <h3>Intitulé du challenge</h3>
-            <transition name="fade">
-              <p v-show="is_challenge" v-html="challenger.challenge"></p>
-            </transition>
-          </div>
-        </div>
-        <div class="text-center">
-          <button class="button warning" @click="pickChallenge">Challenge ?</button>
-          <button class="button warning" @click="addChallenge">Challenge supplémentaire ?</button>
         </div>
       </section>
       <div class="reveal-modal-bg" style="display: block;"></div>
