@@ -112,9 +112,9 @@
           };
         }
 
-        var challenges = JSON.parse(getCookie('challenges'));
+        var challenges = getCookie('challenges');
         if (challenges !== 'undefined' && challenges.length > 0) {
-          this.challenges = challenges;
+          this.challenges = JSON.parse(challenges);
         }
 
         for (var index in cache) {
