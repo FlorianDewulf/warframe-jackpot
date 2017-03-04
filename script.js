@@ -129,10 +129,10 @@
               tmp = JSON.parse(cache[index][key]);
 
               for (var i = 0 ; i < tmp.length ; ++i) {
-                user[index].push({ origin: tmp[i], snake: _.snakeCase(tmp[i]) });
+                user[key].push({ origin: tmp[i], snake: _.snakeCase(tmp[i]) });
               }
             } else {
-              user[index] = [];
+              user[key] = [];
             }
           }
 
