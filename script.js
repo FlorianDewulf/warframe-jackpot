@@ -87,9 +87,9 @@
         this.discardModal();
       },
       fromCache: function(event) {
-        var user_names = getCookie('users');
-        if (typeof user_names !== 'undefined' && user_names.length != 0) {
-          this.initFromCache(JSON.parse(user_names));
+        this.user_names = getCookie('users');
+        if (typeof this.user_names !== 'undefined' && this.user_names.length != 0) {
+          this.initFromCache(JSON.parse(this.user_names));
           this.discardModal();
         } else {
           this.cleanProject(event);
