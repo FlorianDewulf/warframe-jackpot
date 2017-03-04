@@ -115,6 +115,14 @@
         var challenges = getCookie('challenges');
         if (challenges !== 'undefined' && challenges.length > 0) {
           this.challenges = JSON.parse(challenges);
+          var challenge_content = "";
+          for (var index in this.challenges) {
+            if (index > 0) {
+              challenge_content += "\n";
+            }
+            challenge_content += this.challenges[index];
+          }
+          $('#challenges textarea').val(challenge_content);
         }
 
         for (var index in cache) {
