@@ -4,11 +4,11 @@
   <head>
     <title>RandomFrame</title>
     <meta charset="UTF-8"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation.min.css">
+    <link rel="stylesheet" href="./foundation.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/js/foundation.min.js"></script>
+    <script src="./foundation.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
   </head>
@@ -28,7 +28,19 @@
       <section class="container">
         <div class="row">
           <div id="tirage" v-show="display_draw">
-            <h1 class="text-center">{{ current_user ? current_user.name : '' }} <span class="button tiny" @click.prevent="changeUser"><i class="fa fa-refresh" aria-hidden="true"></i></span></h1>
+            <h1 class="text-center">
+              <ul class="dropdown menu" data-dropdown-menu>
+                <li><a href="#current_user" class="text">{{ current_user ? current_user.name : '' }}</a></li>
+                <li>
+                  <a class="button tiny" href="#list"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                  <ul class="menu">
+                    <li v-for="name in user_names" @click.prevent="changeUser(name, $event)" v-bind:class="{ selected: (current_user && current_user.name == name ? true : false) }">
+                      <a href="#{{name}}">{{ name }}</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </h1>
             <hr />
             <div class="slots" id="slots">
               <div class="text-center">?</div>
@@ -61,9 +73,9 @@
       </section>
       <div class="reveal-modal-bg" style="display: block;"></div>
       <div class="reveal-modal open">
-        <h2 class="text-center">Que voulez vous de l'outil ?</h2>
+        <h2 class="text-center" id="modalTitle">Que voulez vous de l'outil ?</h2>
         <hr />
-        <div class="clearfix">
+        <div class="clearfix type_choice" v-show="!modal_content">
           <div class="columns small-4 small-offset-2">
             <div class="button" @click.prevent="cleanProject">
               Projet vierge
@@ -75,7 +87,23 @@
             </div>
           </div>
         </div>
-        <a class="close-reveal-modal" aria-label="Close">×</a>
+        <div class="clearfix" id="input_list" v-show="modal_content">
+          <div class="clearfix input_block" v-for="(input, index) in input_list">
+            <div class="columns small-4 small-offset-3">
+              <input type="text" v-model="input.value" />
+            </div>
+            <div class="columns small-3" style="float:left">
+              <span class="button" v-if="index == input_list.length - 1" @click="addUser"><i class="fa fa-plus"></i></span>
+              <span class="button" v-if="input_list.length > 1" @click="removeUser(index, $event)"><i class="fa fa-minus"></i></span>
+            </div>
+          </div>
+          <div class="text-center"><button class="button" @click="saveNames">Sauvegarder</button></div>
+          <br />
+          <br />
+          <div class="callout secondary">
+            Les noms en doublon ne seront pris en compte qu'une seule fois
+          </div>
+        </div>
       </div>
     </div>
     <script src="script.js"></script>

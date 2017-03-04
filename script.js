@@ -20,10 +20,36 @@
     var expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
+  function cleanArray(array) {
+    var i, j, len = array.length, out = [], obj = {};
+    for (i = 0; i < len; i++) {
+      obj[array[i]] = 0;
+    }
+    for (j in obj) {
+      out.push(j);
+    }
+    return out;
+  }
 
   var app = new Vue({
     el: '#app',
     data: {
+      users: {
+        lund: {
+          name:       'Lund',
+          warframes:  [],
+          primary:    [],
+          secondary:  [],
+          melee:      [],
+        },
+        ystaroth: {
+          name:    'Ystaroth',
+          warframes:  [],
+          primary:    [],
+          secondary:  [],
+          melee:      [],
+        }
+      },
       lund: {
         name:       'Lund',
         warframes:  [],
@@ -41,55 +67,103 @@
       display_draw:     true,
       display_params:   false,
       current_user:     null,
+      user_names:       null,
+      modal_content:    false,
+      input_list:       [{ value: ''}],
       /* end of data */
     },
+    mounted: function() {
+      //this.calcUsers();
+    },
     methods: {
+      /*calcUsers: function() {
+        this.user_names = [];
+
+        for (var index in this.users) {
+          this.user_names.push(this.users[index].name);
+        }
+      },*/
       discardModal: function() {
         $('.reveal-modal').remove();
         $('.reveal-modal-bg').remove();
       },
       cleanProject: function(event) {
+        this.users = [];
+        this.modal_content = true;
+        $('#modalTitle').html('Qui sont vos utilisateurs ?')
+      },
+      saveNames: function(event) {
+        var users = [];
+
+        for (var index in this.input_list) {
+          if (this.input_list[index].value != '') {
+            users.push(this.input_list[index].value);
+          }
+        }
+
+        this.user_names = cleanArray(users);
+        setCookie('users', JSON.stringify(this.user_names));
+        for (var index in this.user_names) {
+          this.users[this.user_names[index]] = {
+            name:       users[index],
+            warframes:  [],
+            primary:    [],
+            secondary:  [],
+            melee:      [],
+          };
+        }
+        this.current_user = this.users[this.user_names[0]];
+        console.log(this.current_user);
         this.discardModal();
       },
       fromCache: function(event) {
-        this.initFromCache();
-        this.discardModal();
+        var user_names = getCookie('users');
+        if (typeof user_names !== 'undefined' && user_names.length != 0) {
+          this.initFromCache(JSON.parse(user_names));
+          this.discardModal();
+        } else {
+          this.cleanProject(event);
+        }
       },
-      initFromCache: function() {
-        var cached_data_lund = {
-          warframes:  getCookie('Lund_warframes'),
-          primary:    getCookie('Lund_primary'),
-          secondary:  getCookie('Lund_secondary'),
-          melee:      getCookie('Lund_melee'),
-        };
-        var cached_data_ystaroth = {
-          warframes:  getCookie('Ystaroth_warframes'),
-          primary:    getCookie('Ystaroth_primary'),
-          secondary:  getCookie('Ystaroth_secondary'),
-          melee:      getCookie('Ystaroth_melee'),
-        };
+      addUser: function(event) {
+        this.input_list.push({ value: ''});
+      },
+      removeUser: function(index, event) {
+        this.input_list.splice(index, 1);
+      },
+      initFromCache: function(users) {
+        var cache = {};
 
-        for (var index in cached_data_lund) {
-          if (typeof cached_data_lund[index] !== 'undefined' && cached_data_lund[index].length != 0) {
-            tmp = JSON.parse(cached_data_lund[index]);
+        for (var index in users) {
+          cache[users[index]] = {
+            warframes:  getCookie(users[index] + '_warframes'),
+            primary:    getCookie(users[index] + '_primary'),
+            secondary:  getCookie(users[index] + '_secondary'),
+            melee:      getCookie(users[index] + '_melee'),
+          };
+        }
 
-            for (var i = 0 ; i < tmp.length ; ++i) {
-              this.lund[index].push({ origin: tmp[i], snake: _.snakeCase(tmp[i]) });
+        for (var index in cache) {
+          var user = {
+            name: index
+          };
+
+          for (var key in cache[index]) {
+            user[key] = [];
+
+            if (typeof cache[index][key] !== 'undefined' && cache[index][key].length != 0) {
+              tmp = JSON.parse(cache[index][key]);
+
+              for (var i = 0 ; i < tmp.length ; ++i) {
+                user[index].push({ origin: tmp[i], snake: _.snakeCase(tmp[i]) });
+              }
             }
           }
         }
-        for (var index in cached_data_ystaroth) {
-          if (typeof cached_data_ystaroth[index] !== 'undefined' && cached_data_ystaroth[index].length != 0) {
-            tmp = JSON.parse(cached_data_ystaroth[index]);
 
-            for (var i = 0 ; i < tmp.length ; ++i) {
-              this.ystaroth[index].push({ origin: tmp[i], snake: _.snakeCase(tmp[i]) });
-            }
-          }
-        }
-
-        this.current_user = this.lund;
+        this.current_user = user[0];
         this.restoreTextarea();
+        console.log(this.current_user);
       },
       getNumsFromRange: function (obj) {
     		var getRandomInt = function (max) {
@@ -114,15 +188,16 @@
           this.display_params = true;
         }
       },
-      changeUser: function(event) {
+      changeUser: function(name, event) {
         /* clean */
         $('textarea').val('');
         $('#slots div').html('?')
 
-        if (this.current_user.name == "Lund") {
-          this.current_user = this.ystaroth;
-        } else {
-          this.current_user = this.lund;
+        for (var index in this.users) {
+          if (this.users[index].name == name) {
+            this.current_user = this.users[index];
+            break;
+          }
         }
 
         this.restoreTextarea();
@@ -241,4 +316,5 @@
     },
   });
 
+  $(document).foundation();
 }());

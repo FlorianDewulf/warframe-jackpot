@@ -90,7 +90,7 @@ textarea {
   left:0;
   right:0
 }
-.reveal-modal .button {
+.reveal-modal .type_choice .button {
   height: 90px;
   width:100%;
   padding-top: 35px;
@@ -212,4 +212,25 @@ textarea {
   top: 0.55556rem;
   right: 1.22222rem;
   text-decoration: none;
+}
+
+ul.menu li a.text {
+  color: black;
+}
+
+ul.menu li.selected a {
+  background: #1779ba;
+  color: white;
+}
+
+ul.dropdown.menu {
+  display: inline-block;
+}
+
+.dropdown.menu>li.opens-right>.is-dropdown-submenu {
+  top: 75%;
+}
+
+li > ul.menu > li > a {
+  font-size: 14px;
 }
