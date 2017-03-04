@@ -112,6 +112,11 @@
           };
         }
 
+        var challenges = JSON.parse(getCookie('challenges'));
+        if (challenges !== 'undefined' && challenges.length > 0) {
+          this.challenges = challenges;
+        }
+
         for (var index in cache) {
           var user = {
             name: index
