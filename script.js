@@ -37,26 +37,20 @@
   var app = new Vue({
     el: '#app',
     data: {
-      users: [],
+      users:            [],
+      challenges:       [],
       display_draw:     true,
       display_params:   false,
+      display_challenge:false,
       current_user:     null,
       user_names:       null,
       modal_content:    false,
+      is_challenge:     false,
+      challenger:       { name: '', challenge: '' },
       input_list:       [{ value: ''}],
       /* end of data */
     },
-    mounted: function() {
-      //this.calcUsers();
-    },
     methods: {
-      /*calcUsers: function() {
-        this.user_names = [];
-
-        for (var index in this.users) {
-          this.user_names.push(this.users[index].name);
-        }
-      },*/
       discardModal: function() {
         $('.reveal-modal').remove();
         $('.reveal-modal-bg').remove();
@@ -158,12 +152,15 @@
     	},
       changeTab: function(event) {
         id = $(event.target).attr('id');
+        this.display_draw       = false;
+        this.display_params     = false;
+        this.display_challenge  = false;
         if (id == 'tirage') {
-          this.display_draw   = true;
-          this.display_params = false;
+          this.display_draw       = true;
         } else if (id == 'params') {
-          this.display_draw   = false;
-          this.display_params = true;
+          this.display_params     = true;
+        } else if (id == 'challenge') {
+          this.display_challenge  = true;
         }
       },
       changeUser: function(name, event) {
@@ -287,8 +284,43 @@
         this.current_user.melee = final;
         setCookie(this.current_user.name + '_melee', JSON.stringify(light_for_cookie), 365);
       },
+      putChallenges: function(event) {
+        var challenges = [];
+        var values = this.parse_textarea($(event.target).val());
+
+        for (var index in values) {
+          challenges.push(values[index]);
+        }
+        this.challenges = challenges;
+        setCookie('challenges', JSON.stringify(challenges), 365);
+      },
       parse_textarea: function(content) {
         return content.split("\n");
+      },
+      pickChallenge: function() {
+        var nums = this.getNumsFromRange({
+          is_challenge:     2,
+          challenger:       this.user_names.length,
+          challenge_name:   this.challenges.length
+        });
+
+        if (nums.is_challenge) {
+          this.is_challenge = true;
+          this.challenger.name = this.user_names[nums.challenger];
+          this.challenger.challenge = this.challenges[nums.challenge_name];
+        } else {
+          this.is_challenge = false;
+          this.challenger.name = '';
+          this.challenger.challenge = '';
+        }
+
+      },
+      addChallenge: function() {
+        var nums = this.getNumsFromRange({
+          challenge_name:   this.challenges.length
+        });
+
+        this.challenger.challenge += '<br />' + this.challenges[nums.challenge_name];
       }
       /* end of methods*/
     },
