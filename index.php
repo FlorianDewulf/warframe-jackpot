@@ -106,17 +106,27 @@
         <h2 class="text-center" id="modalTitle">Que voulez vous de l'outil ?</h2>
         <hr />
         <div class="clearfix type_choice" v-show="!modal_content">
-          <div class="columns small-4 small-offset-2">
-            <div class="button" @click.prevent="cleanProject">
-              Projet vierge
-            </div>
-          </div>
-          <div class="columns small-4" style="float:left" @click.prevent="fromCache">
-            <div class="button" style="padding-top:25px;">
-              Récuperez mes données des cookies
-            </div>
-          </div>
-        </div>
+          	<div class="clearfix">
+	          	<div class="columns small-4 small-offset-2">
+		            <div class="button" @click.prevent="cleanProject">
+		              Projet vierge
+		            </div>
+		        </div>
+		        <div class="columns small-4" style="float:left" @click.prevent="fromCache">
+		            <div class="button" style="padding-top:25px;">
+		              Récuperez mes données des cookies
+		            </div>
+		        </div>
+	        </div>
+	        <div class="clearfix">
+				<div class="columns small-5 small-offset-4">
+					<label>
+						<input type="checkbox" v-model="is_empty_challenge_possible" />
+						Permettre de ne pas avoir de challenge
+					</label>
+				</div>
+			</div>
+	    </div>
         <div class="clearfix" id="input_list" v-show="modal_content">
           <div class="clearfix input_block" v-for="(input, index) in input_list">
             <div class="columns small-4 small-offset-3">

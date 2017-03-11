@@ -39,6 +39,7 @@
     data: {
       users:            [],
       challenges:       [],
+      is_empty_challenge_possible: true,
       display_draw:     true,
       display_params:   false,
       display_challenge:false,
@@ -308,7 +309,14 @@
         setCookie('challenges', JSON.stringify(challenges), 365);
       },
       parse_textarea: function(content) {
-        return content.split("\n");
+        return this.remove_duplicate(content.split("\n"));
+      },
+      remove_duplicate: function(content) {
+        var uniqueNames = [];
+		$.each(content, function(i, el){
+		    if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+		})
+		return uniqueNames
       },
       pickChallenge: function() {
         var nums = this.getNumsFromRange({
@@ -317,7 +325,7 @@
           challenge_name:   this.challenges.length
         });
 
-        if (nums.is_challenge) {
+        if (nums.is_challenge || !this.is_empty_challenge_possible) {
           this.is_challenge = true;
           this.challenger.name = this.user_names[nums.challenger];
           this.challenger.challenge = this.challenges[nums.challenge_name];
@@ -329,11 +337,22 @@
 
       },
       addChallenge: function() {
-        var nums = this.getNumsFromRange({
-          challenge_name:   this.challenges.length
-        });
+      	var challengePicked = this.challenger.challenge.split("<br />");
+      	var pickChallenge = (challengePicked.length == this.challenges.length) ? false : true;
+      	var challengePool = this.challenges.slice();
 
-        this.challenger.challenge += '<br />' + this.challenges[nums.challenge_name];
+	    while (pickChallenge) {
+	        var nums = this.getNumsFromRange({
+	          challenge_name:   challengePool.length
+	        });
+
+	        if ($.inArray(challengePool[nums.challenge_name], challengePicked) == -1) {
+		        this.challenger.challenge += '<br />' + challengePool[nums.challenge_name];
+		        pickChallenge = false;
+		    } else {
+		    	challengePool.splice(nums.challenge_name, 1);
+		    }
+	    }
       }
       /* end of methods*/
     },
